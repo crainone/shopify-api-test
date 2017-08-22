@@ -1,0 +1,37 @@
+{
+  "name": "shopify-api-test",
+  "version": "1.0.0",
+  "description": "Connect to Shopify API",
+  "main": "index.js",
+  "scripts": {
+    "start": "SET NODE_ENV=development&&nodemon server/index.js",
+    "test": "mocha -- server/**/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/crainone/shopify-api-test.git"
+  },
+  "keywords": [
+    "shopify",
+    "klickly"
+  ],
+  "author": "crainone <caitlin.rainone@gmail.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/crainone/shopify-api-test/issues"
+  },
+  "homepage": "https://github.com/crainone/shopify-api-test#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "chai": "^4.1.1",
+    "chai-http": "^3.0.0",
+    "config": "^1.26.2",
+    "express": "^4.15.4",
+    "nodemon": "^1.11.0",
+    "request": "^2.81.0",
+    "should": "^11.2.1"
+  },
+  "devDependencies": {
+    "mocha": "^3.5.0"
+  }
+}

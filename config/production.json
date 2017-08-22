@@ -1,0 +1,4 @@
+{
+	"shopSource": "https://crainone-api-test.myshopify.com/admin/products/count.json",
+	"DBHost": "YOUR_DB_URI"
+}

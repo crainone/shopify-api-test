@@ -1,0 +1,4 @@
+{
+	"shopSource": "http://localhost:8081/remote/products/count.json",
+	"DBHost": "YOUR_TEST_DB_URI"
+}
