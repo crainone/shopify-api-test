@@ -1,4 +1,6 @@
 {
-	"shopSource": "http://localhost:8081/remote/products/count.json",
-	"DBHost": "YOUR_TEST_DB_URI"
+	"shopSource" : "http://localhost:8081/api/remote/",
+	"dbHost" : {
+		"url" : "mongodb://localhost:27017/shopify-api-test-development"
+	}
 }
