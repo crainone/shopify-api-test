@@ -1,3 +1,5 @@
+'use strict'
+
 var mongoose = require('mongoose');
 var config = require('config');
 var request = require('request-promise');
@@ -16,45 +18,56 @@ exports.start = function (req, res, next) {
 	
 	main_next = next;
 	//TODO: This should spin off
-	getRequestedAccount(shopName);
-}
-
-function getRequestedAccount(accountId) {
-	console.log('Looking for account ' + accountId);
-	let search = {'name': accountId};
+	let search = {'name': shopName};
+	let createAccountF = result => createAccount(result, shopName);
+	let doneHandler = result => next(); //eat the result
 	
 	Account.find(search)
-		.then(result => createAccountIfNecessary(result, accountId))
-		.then(loadAccountProducts)
-		.then(doSomething)
+		.then(createAccountF, doSomething)
+		.then(loadNewAccountProducts, doSomething)
+		.then(addExistingProducts, doSomething)
+		.then(doneHandler, doSomething)
 		.catch(failureCallback);
 }
 
-function createAccountIfNecessary(result, accountId) {
-	console.log("createOrUpdateAccount:" + result);
+function createAccount(result, accountId) {
+	console.log("createAccount:" + result);
 	if(!result || !result.name || result.name != accountId) {
+		console.log("Creating account for " + result + "(" + accountId + ")");
 		result = new Account();
 		result.name = accountId;
 		result.user = "caitlin.rainone@gmail.com";
 		result.pass = "SimpleS!m0n";
-		return result.save();
+		result.save(); //Don't worry about this coming back
 	}
 	return result;
 }
 
-
-function loadAccountProducts(result) {
-	console.log("loadAccountProducts:" + result);
-	if(result.name && result.name != '') {
-		return request({  
-			method: 'GET',
-			uri: config.shopSource.protocol + 
-				result.name + '.' + 
+function loadNewAccountProducts(result) {
+	console.log("loadNewAccountProducts:" + result);
+	let url = config.shopSource.protocol + 
+				getSubdomain(result.name) + 
 				config.shopSource.host + ":" + 
 				config.shopSource.port + 
 				config.shopSource.path + 
-				'/admin/products.json'
+				'/admin/products.json';
+	console.log("Hitting " + url + " for results");
+	if(result.name && result.name != '') {
+		return request({  
+			method: 'GET',
+			uri: url
 		});
+	}
+	return result;
+}
+
+function addExistingProducts(result) {
+	console.log("addExistingProducts:[JSON]");
+	if(result) {
+		let resultJSON = JSON.parse(result);
+		console.log("addExistingProducts:" + resultJSON.products);
+		//Kind of naive to just add them, but that's later:
+		Product.create(resultJSON.products); //Don't worry about when this comes back either
 	}
 	return result;
 }
@@ -69,7 +82,9 @@ function failureCallback(result) {
 	return result;
 }
 
-function loadAccount(account) {
-	console.log('Got account ' + account);
-	next();
+function getSubdomain(accountName) {
+	if(config.util.getEnv('NODE_ENV') !== 'production')
+		return ""
+	//TODO: sanitize here
+	return result.name + ".";
 }

@@ -1,9 +1,9 @@
 {
 	"shopSource" : {
 		"protocol" : "http://",
-		"host" : "localhost",
+		"host" : "catewin10",
 		"port" : 8081,
-		"path" : "/api/remote/"
+		"path" : "/api/remote"
 	},
 	"dbHost" : {
 		"url" : "mongodb://localhost:27017/shopify-api-test-development"
