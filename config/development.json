@@ -1,5 +1,10 @@
 {
-	"shopSource" : "http://localhost:8081/api/remote/",
+	"shopSource" : {
+		"protocol" : "http://",
+		"host" : "localhost",
+		"port" : 8081,
+		"path" : "/api/remote/"
+	},
 	"dbHost" : {
 		"url" : "mongodb://localhost:27017/shopify-api-test-development"
 	}

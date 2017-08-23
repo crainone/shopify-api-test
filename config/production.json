@@ -1,5 +1,10 @@
 {
-	"shopSource": "https://crainone-api-test.myshopify.com/",
+	"shopSource": {
+		"protocol" : "https://",
+		"host" : "myshopify.com",
+		"port" : 80,
+		"path" : "/"
+	},
 	"dbHost" : {
 		"url" : "mongodb://localhost:27017/shopify-api-test"
 	}
